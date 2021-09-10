@@ -5,15 +5,16 @@ import { login } from "../../services/trackIt";
 import Loader from "react-loader-spinner";
 import { Link, useHistory } from "react-router-dom";
 
-export default function Login() {
-    const [user, setUser] = useState({email: "", password: ""})
+export default function Login({setUser}) {
+    const [userInfo, setUserInfo] = useState({email: "", password: ""})
     const [loading, setLoading] = useState(false);
     const history = useHistory();
 
     const signIn = () => {
         setLoading(true);
-        login(user)
+        login(userInfo)
             .then(ans => {
+                setUser(ans.data)
                 setLoading(false);
                 history.push('/hoje');
             })
@@ -26,8 +27,8 @@ export default function Login() {
     return (
         <>
             <Logo src={logo}/>
-            <Input loading={loading} type='text' placeholder='email' value={user.email} onChange={e => setUser({...user, email: e.target.value})} />
-            <Input loading={loading} type='text' placeholder='senha' value={user.password} onChange={e => setUser({...user, password: e.target.value})} />
+            <Input loading={loading} type='text' placeholder='email' value={userInfo.email} onChange={e => setUserInfo({...userInfo, email: e.target.value})} />
+            <Input loading={loading} type='text' placeholder='senha' value={userInfo.password} onChange={e => setUserInfo({...userInfo, password: e.target.value})} />
             <Button onClick={signIn} loading={loading}>
                 {loading ? <Loader type="ThreeDots" color="#FFFFFF" height={13} width={51} /> : "Entrar"}
             </Button>

@@ -1,11 +1,18 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 export default function Menu() {
     return (
         <Footer>
-            <Button>Hábitos</Button>
-            <Today>Hoje</Today>
-            <Button>Histórico</Button>
+            <Link to="/habitos">
+                <Button>Hábitos</Button>
+            </Link>
+            <Link to="/hoje">
+                <Today>Hoje</Today>
+            </Link>
+            <Link to="/historico">
+                <Button>Histórico</Button>
+            </Link>
         </Footer>
     );
 }
@@ -35,6 +42,7 @@ const Today = styled.button`
     background-color: #52B6FF;
     border: none;
     position: absolute;
+    left: calc(50% - 45.5px);
     bottom: 10px;
     color: #FFFFFF;
     font-size: 18px;
