@@ -1,5 +1,5 @@
-import TopBar from "../generics/TopBar";
-import Menu from "../generics/Menu";
+import TopBar from "../shared/TopBar";
+import Menu from "../shared/Menu";
 import styled from "styled-components";
 import CreateHabit from "./CreateHabit";
 import Habit from "./Habit";
