@@ -1,14 +1,40 @@
+import { useState } from "react";
 import styled from "styled-components";
 import logo from "../../media/Logo.png";
+import { login } from "../../services/trackIt";
+import Loader from "react-loader-spinner";
+import { useHistory } from "react-router";
+import { Link } from "react-router-dom";
 
 export default function Login() {
+    const [user, setUser] = useState({email: "", password: ""})
+    const [loading, setLoading] = useState(false);
+    const history = useHistory();
+
+    const signIn = () => {
+        setLoading(true)
+        login(user)
+            .then(ans => {
+                setLoading(false);
+                history.push('/hoje');
+            })
+            .catch(error => {
+                setLoading(false);
+                alert("Campos inválidos");
+            });
+    }
+
     return (
         <>
             <Logo src={logo}/>
-            <Input type='text' placeholder='email'/>
-            <Input type='text' placeholder='senha'/>
-            <Button>Entrar</Button>
-            <Link>Não tem uma conta? Cadastre-se!</Link>
+            <Input loading={loading} type='text' placeholder='email' value={user.email} onChange={e => setUser({...user, email: e.target.value})} />
+            <Input loading={loading} type='text' placeholder='senha' value={user.password} onChange={e => setUser({...user, password: e.target.value})} />
+            <Button onClick={signIn} loading={loading}>
+                {loading ? <Loader type="ThreeDots" color="#FFFFFF" height={13} width={51} /> : "Entrar"}
+            </Button>
+            <Link to="/cadastro">
+                <Register>Não tem uma conta? Cadastre-se!</Register>
+            </Link>
         </>
     );
 }
@@ -25,8 +51,12 @@ const Input = styled.input`
     width: 303px;
     height: 45px;
     margin: 0 auto 7px;
+    padding-left: 7px;
     border: 1px solid #D5D5D5;
     border-radius: 5px;
+    background-color: ${({loading}) => loading ? '#F2F2F2' : 'inherit'};
+    color: ${({loading}) => loading ? '#AFAFAF' : '#666666'};
+    pointer-events: ${({loading}) => loading ? 'none' : 'all'};
 
     ::placeholder {
         font-size: 20px;
@@ -45,10 +75,12 @@ const Button = styled.button`
     font-size: 21px;
     border: none;
     border-radius: 5px;
+    opacity: ${({loading}) => loading ? 0.7 : 1};
+    pointer-events: ${({loading}) => loading ? 'none' : 'all'};
 
 `;
 
-const Link = styled.a`
+const Register = styled.a`
     display: block;
     margin-top: 15px;
     text-align: center;
