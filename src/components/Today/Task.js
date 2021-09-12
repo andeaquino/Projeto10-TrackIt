@@ -1,14 +1,36 @@
 import styled from "styled-components";
+import { checkHabit, uncheckHabit } from "../../services/trackIt";
 
-export default function Task() {
+export default function Task({habit, token, loadTodayHabits}) {
+    const {id, name, currentSequence, highestSequence, done} = habit;
+
+    const check = () => {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+        if (!done) {
+            checkHabit(id, config)
+                .then(() => {
+                    loadTodayHabits();
+                });
+        } else {
+            uncheckHabit(id, config)
+                .then(() => {
+                    loadTodayHabits();
+                });
+        }
+    }
+
     return (
         <Container>
             <Information>
-                <h3>Ler 1 capítulo de livro</h3>
-                <p>Sequência atual: 3 dias</p>
-                <p>Seu recorde: 5 dias</p>
+                <h3>{name}</h3>
+                <p>Sequência atual: {currentSequence} dias</p>
+                <p>Seu recorde: {highestSequence} dias</p>
             </Information>
-            <Checkbox><ion-icon name="checkmark"></ion-icon></Checkbox>
+            <Checkbox onClick={check} done={done}><ion-icon name="checkmark"></ion-icon></Checkbox>
         </Container>
     );
 }
@@ -40,7 +62,7 @@ const Checkbox = styled.button`
     width: 69px;
     height: 69px;
     border-radius: 5px;
-    background-color: #EBEBEB;
+    background-color: ${({done}) => done ? '#8FC549' : '#EBEBEB'};;
 
     ion-icon {
         color: #FFFFFF;

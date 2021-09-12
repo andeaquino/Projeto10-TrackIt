@@ -2,38 +2,49 @@ import styled from "styled-components";
 import TopBar from "../shared/TopBar";
 import Menu from "../shared/Menu";
 import Task from "./Task";
-import { useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { getTodayHabits } from "../../services/trackIt";
 import UserContext from "../../contexts/UserContext";
 import dayjs from "dayjs";
 
 
 export default function Today() {
+    const [habits, setHabits] = useState([]);
+    const [progress, setProgress] = useState(0);
     const {user} = useContext(UserContext);
-    console.log(user.token);
     const day = dayjs().format('dddd, DD/MM');
 
     useEffect(() => {
+        loadTodayHabits();
+    }, []);
+
+    const loadTodayHabits = () => {
         const config = {
             headers: {
                 Authorization: `Bearer ${user.token}`
             }
         }
         getTodayHabits(config)
-            .then(ans => {
-                console.log("oi");
-            })
-    }, []);
+            .then(res => {
+                setHabits(res.data);
+                checkProgress(res.data);
+            });
+    }
+
+    const checkProgress = (habitsa) => {
+        const habitsDone = habitsa.filter(habit => habit.done === true);
+        setProgress(habitsDone.length/habitsa.length * 100);
+    }
+
     return (
         <>
             <TopBar />
             <Container>
                 <Header>
                     <Title>{day}</Title>
-                    <Description>Nenhum hábito concluído ainda</Description>
+                    <Description>{progress > 0 ? `${progress.toFixed(0)}% dos hábitos concluídos` : 'Nenhum hábito concluído ainda'}</Description>
                 </Header>
-                <Task />
-                <Task />
+                {habits.map(habit => <Task habit={habit} token={user.token} loadTodayHabits={loadTodayHabits}/>)}
             </Container>
             <Menu />
         </>

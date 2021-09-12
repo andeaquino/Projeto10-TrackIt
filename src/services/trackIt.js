@@ -32,11 +32,23 @@ function deleteHabit(id, config) {
     return promise;
 }
 
+function checkHabit(id, config) {
+    const promise = axios.post(`${BASE_URL}/habits/${id}/check`, {}, config);
+    return promise;
+}
+
+function uncheckHabit(id, config) {
+    const promise = axios.post(`${BASE_URL}/habits/${id}/uncheck`, {}, config);
+    return promise;
+}
+
 export {
     login,
     register,
     getHabits,
     getTodayHabits,
     deleteHabit,
-    createHabit
+    createHabit,
+    checkHabit,
+    uncheckHabit
 }

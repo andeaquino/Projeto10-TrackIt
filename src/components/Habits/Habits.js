@@ -19,8 +19,8 @@ export default function Habits() {
             }
         }
         getHabits(config)
-            .then(ans => {
-                setHabits(ans.data);
+            .then(res => {
+                setHabits(res.data);
             })
     };
 

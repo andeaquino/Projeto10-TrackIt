@@ -28,15 +28,7 @@ export default function Habit({id, name, days, loadHabits}) {
                 <ion-icon name="trash-outline" onClick={confirmDeleteAction}></ion-icon>
             </Header>
             <Days>
-                {week.map((day, index) => {
-                    let selected;
-                    if (days.find(element => element === index + 1)) {
-                        selected = true;
-                    } else {
-                        selected = false;
-                    }
-                    return (<Day selected={selected}>{day}</Day>);
-                } )}
+                {week.map((day, index) => <Day selected={days.includes(index)}>{day}</Day>)}
             </Days>
             
         </Container>

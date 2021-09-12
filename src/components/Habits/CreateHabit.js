@@ -39,8 +39,8 @@ export default function CreateHabit({showCreateBox, cancel, token, loadHabits}) 
             <Days>
                 {week.map((day, index) => 
                 <Day key={index} 
-                onClick={() => selectDay(index + 1)} 
-                selected={habit.days.includes(index + 1) ? true : false}>
+                onClick={() => selectDay(index)} 
+                selected={habit.days.includes(index) ? true : false}>
                 {day}
                 </Day>)}
             </Days>
