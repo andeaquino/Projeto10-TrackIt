@@ -6,11 +6,12 @@ import { useState, useEffect, useContext } from "react";
 import { getTodayHabits } from "../../services/trackIt";
 import UserContext from "../../contexts/UserContext";
 import dayjs from "dayjs";
+import ProgressContext from "../../contexts/ProgressContext";
 
 
 export default function Today() {
     const [habits, setHabits] = useState([]);
-    const [progress, setProgress] = useState(0);
+    const {progress, setProgress} = useContext(ProgressContext);
     const {user} = useContext(UserContext);
     const day = dayjs().format('dddd, DD/MM');
 
