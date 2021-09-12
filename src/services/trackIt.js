@@ -12,7 +12,31 @@ function register(body) {
     return promise;
 }
 
+function getHabits(config) {
+    const promise = axios.get(`${BASE_URL}/habits`, config);
+    return promise;
+}
+
+function createHabit(body, config) {
+    const promise = axios.post(`${BASE_URL}/habits`, body, config);
+    return promise;
+}
+
+function getTodayHabits(config) {
+    const promise = axios.get(`${BASE_URL}/habits/today`, config);
+    return promise;
+}
+
+function deleteHabit(id, config) {
+    const promise = axios.delete(`${BASE_URL}/habits/${id}`, config);
+    return promise;
+}
+
 export {
     login,
-    register
+    register,
+    getHabits,
+    getTodayHabits,
+    deleteHabit,
+    createHabit
 }

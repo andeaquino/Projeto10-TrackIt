@@ -13,7 +13,7 @@ export default function Register() {
     const signUp = () => {
         setLoading(true);
         register(user)
-            .then(ans => {
+            .then(res => {
                 setLoading(false);
                 history.push('/');
             })

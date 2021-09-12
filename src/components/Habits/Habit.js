@@ -1,20 +1,42 @@
 import styled from "styled-components";
+import { deleteHabit } from "../../services/trackIt";
+import UserContext from "../../contexts/UserContext";
+import { useContext } from "react";
 
-export default function Habit() {
+export default function Habit({id, name, days, loadHabits}) {
+    const week = ["D", "S", "T", "Q", "Q", "S", "S"];
+    const {user} = useContext(UserContext);
+
+    const confirmDeleteAction = () => {
+        if(window.confirm("Você realmente quer deletar o hábito?")) {
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${user.token}`
+                }
+            }
+            deleteHabit(id, config)
+                .then(() => {
+                    loadHabits();
+                });
+        }
+    }
+
     return (
         <Container>
             <Header>
-                <Title>Ler Capitulo 1</Title>
-                <ion-icon name="trash-outline"></ion-icon>
+                <Title>{name}</Title>
+                <ion-icon name="trash-outline" onClick={confirmDeleteAction}></ion-icon>
             </Header>
             <Days>
-                <Day>D</Day>
-                <Day>S</Day>
-                <Day>T</Day>
-                <Day>Q</Day>
-                <Day>Q</Day>
-                <Day>S</Day>
-                <Day>S</Day>
+                {week.map((day, index) => {
+                    let selected;
+                    if (days.find(element => element === index + 1)) {
+                        selected = true;
+                    } else {
+                        selected = false;
+                    }
+                    return (<Day selected={selected}>{day}</Day>);
+                } )}
             </Days>
             
         </Container>
@@ -54,8 +76,8 @@ const Day = styled.li`
     width: 30px;
     height: 30px;
     line-height: 30px;
-    background-color: #FFFFFF;
-    color: #DBDBDB;
+    background-color: ${({selected}) => selected ? '#DBDBDB' : '#FFFFFF'};;
+    color: ${({selected}) => selected ? '#FFFFFF' : '#DBDBDB'};
     font-size: 20px;
     text-align: center;
     border: 1px solid #D4D4D4;

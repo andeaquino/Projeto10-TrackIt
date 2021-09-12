@@ -3,19 +3,49 @@ import Menu from "../shared/Menu";
 import styled from "styled-components";
 import CreateHabit from "./CreateHabit";
 import Habit from "./Habit";
+import UserContext from "../../contexts/UserContext";
+import { useContext, useEffect, useState } from "react";
+import { getHabits } from "../../services/trackIt";
 
 export default function Habits() {
+    const [habits, setHabits] = useState([]);
+    const [showCreateBox, setShowCreateBox] = useState(false);
+    const {user} = useContext(UserContext);
+
+    const loadHabits = () => {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${user.token}`
+            }
+        }
+        getHabits(config)
+            .then(ans => {
+                setHabits(ans.data);
+            })
+    };
+
+    useEffect(() => {
+        loadHabits();
+    }, []);
+
+    const cancel = () => {
+        setShowCreateBox(false);
+    }
+
     return (
         <>
             <TopBar />
             <Container>
                 <Header>
                     <Title>Meus Hábitos</Title>
-                    <Button>+</Button>
+                    <Button onClick={() => setShowCreateBox(true)}>+</Button>
                 </Header>
-                <Habit />
-                <Habit />
+                <CreateHabit showCreateBox={showCreateBox} cancel={cancel} token={user.token} loadHabits={loadHabits}/>
+                {
+                (habits.length > 0) ? 
+                habits.map(habit => <Habit id={habit.id} name={habit.name} days={habit.days} loadHabits={loadHabits} />) : 
                 <Description>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</Description>
+                }
             </Container>
             <Menu />
         </>   

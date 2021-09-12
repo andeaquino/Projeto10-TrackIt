@@ -13,8 +13,8 @@ export default function Login({setUser}) {
     const signIn = () => {
         setLoading(true);
         login(userInfo)
-            .then(ans => {
-                setUser(ans.data)
+            .then(res => {
+                setUser(res.data)
                 setLoading(false);
                 history.push('/hoje');
             })

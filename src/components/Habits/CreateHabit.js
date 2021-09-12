@@ -1,21 +1,52 @@
+import { useState } from "react";
 import styled from "styled-components";
+import { createHabit } from "../../services/trackIt";
 
-export default function CreateHabit() {
+export default function CreateHabit({showCreateBox, cancel, token, loadHabits}) {
+    const [habit, setHabit] = useState({name: "", days: []});
+    const week = ["D", "S", "T", "Q", "Q", "S", "S"];
+
+    const saveHabit = () => {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+        createHabit(habit, config)
+            .then(() => {
+                cancel();
+                setHabit({name: "", days: []});
+                loadHabits();
+            })
+            .catch(() => {
+                alert("Erro");
+            })
+    }
+
+    const selectDay = (day) => {
+        if (habit.days.includes(day)) {
+            const filteredDays = habit.days.filter(d => d !== day);
+            setHabit({...habit, days: filteredDays})
+        } else {
+            setHabit({...habit, days: [...habit.days, day]})
+        }
+    }
+    
+
     return (
-        <CreateBox>
-            <Input type="text" placeholder="nome do hábito"/>
+        <CreateBox showCreateBox={showCreateBox}>
+            <Input type="text" placeholder="nome do hábito" value={habit.name} onChange={e => setHabit({...habit, name: e.target.value})} />
             <Days>
-                <Day>D</Day>
-                <Day>S</Day>
-                <Day>T</Day>
-                <Day>Q</Day>
-                <Day>Q</Day>
-                <Day>S</Day>
-                <Day>S</Day>
+                {week.map((day, index) => 
+                <Day key={index} 
+                onClick={() => selectDay(index + 1)} 
+                selected={habit.days.includes(index + 1) ? true : false}>
+                {day}
+                </Day>)}
             </Days>
             <Buttons>
-                <Cancel>Cancelar</Cancel>
-                <Save>Salvar</Save>
+                <Cancel onClick={cancel}>Cancelar</Cancel>
+                <Save onClick={saveHabit}>Salvar</Save>
             </Buttons>
         </CreateBox>
     );
@@ -28,6 +59,7 @@ const CreateBox = styled.div`
     background-color: #FFFFFF;
     margin: 0 auto 30px;
     padding: 18px;
+    display: ${({showCreateBox}) => showCreateBox ? 'block' : 'none'};
 `;
 
 const Input = styled.input`
@@ -37,11 +69,11 @@ const Input = styled.input`
     margin-bottom: 8px;
     border: 1px solid #D4D4D4;
     border-radius: 5px;
+    padding-left: 8px;
 
     ::placeholder {
         color: #DBDBDB;
-        font-size: 20px;
-        padding-left: 8px;
+        font-size: 20px; 
     }
 `;
 
@@ -53,8 +85,8 @@ const Day = styled.li`
     width: 30px;
     height: 30px;
     line-height: 30px;
-    background-color: #FFFFFF;
-    color: #DBDBDB;
+    background-color: ${({selected}) => selected ? '#DBDBDB' : '#FFFFFF'};;
+    color: ${({selected}) => selected ? '#FFFFFF' : '#DBDBDB'};
     font-size: 20px;
     text-align: center;
     border: 1px solid #D4D4D4;
