@@ -22,13 +22,13 @@ function createHabit(body, config) {
     return promise;
 }
 
-function getTodayHabits(config) {
-    const promise = axios.get(`${BASE_URL}/habits/today`, config);
+function deleteHabit(id, config) {
+    const promise = axios.delete(`${BASE_URL}/habits/${id}`, config);
     return promise;
 }
 
-function deleteHabit(id, config) {
-    const promise = axios.delete(`${BASE_URL}/habits/${id}`, config);
+function getTodayHabits(config) {
+    const promise = axios.get(`${BASE_URL}/habits/today`, config);
     return promise;
 }
 
@@ -46,9 +46,9 @@ export {
     login,
     register,
     getHabits,
-    getTodayHabits,
-    deleteHabit,
     createHabit,
+    deleteHabit,
+    getTodayHabits,
     checkHabit,
     uncheckHabit
 }

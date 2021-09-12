@@ -1,12 +1,13 @@
-import styled from "styled-components";
-import { deleteHabit } from "../../services/trackIt";
-import UserContext from "../../contexts/UserContext";
 import { useContext } from "react";
+import { deleteHabit } from "../../../services/trackIt";
+import UserContext from "../../../contexts/UserContext";
+import styled from "styled-components";
 
-export default function Habit({id, name, days, loadHabits}) {
-    const week = ["D", "S", "T", "Q", "Q", "S", "S"];
+export default function Habit({habit, loadHabits}) {
+    const {id, name, days} = habit;
     const {user} = useContext(UserContext);
-
+    const week = ["D", "S", "T", "Q", "Q", "S", "S"];
+    
     const confirmDeleteAction = () => {
         if(window.confirm("Você realmente quer deletar o hábito?")) {
             const config = {
@@ -22,46 +23,47 @@ export default function Habit({id, name, days, loadHabits}) {
     }
 
     return (
-        <Container>
-            <Header>
-                <Title>{name}</Title>
+        <HabitContainer>
+            <HabitHeader>
+                <h3>{name}</h3>
                 <ion-icon name="trash-outline" onClick={confirmDeleteAction}></ion-icon>
-            </Header>
-            <Days>
+            </HabitHeader>
+            <ul>
                 {week.map((day, index) => <Day selected={days.includes(index)}>{day}</Day>)}
-            </Days>
+            </ul>
             
-        </Container>
+        </HabitContainer>
     );
 }
 
-const Container = styled.div`
+const HabitContainer = styled.div`
     width: calc(100% - 30px);
     height: 91px;
     border-radius: 5px;
     background-color: #FFFFFF;
     margin: 0 auto 10px;
     padding: 14px;
+
+    ul {
+        display: flex;
+    }
 `;
 
-const Header = styled.header`
+const HabitHeader = styled.header`
     display: flex;
     justify-content: space-between;
+
+    h3 {
+        color: #666666;
+        font-size: 20px;
+        padding: 2px 0 9px;
+        font-weight: 400;
+    }
 
     ion-icon {
         color: #666666;
         font-size: 17px;
     }
-`;
-
-const Title = styled.h3`
-    color: #666666;
-    font-size: 20px;
-    padding: 2px 0 9px;
-`;
-
-const Days = styled.ul`
-    display: flex;
 `;
 
 const Day = styled.li`

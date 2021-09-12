@@ -1,12 +1,16 @@
 import { useState } from "react";
+import { createHabit } from "../../../services/trackIt";
+import Loader from "react-loader-spinner";
 import styled from "styled-components";
-import { createHabit } from "../../services/trackIt";
 
-export default function CreateHabit({showCreateBox, cancel, token, loadHabits}) {
+
+export default function CreateBox({showCreateBox, cancel, token, loadHabits}) {
     const [habit, setHabit] = useState({name: "", days: []});
+    const [loading, setLoading] = useState(false);
     const week = ["D", "S", "T", "Q", "Q", "S", "S"];
 
     const saveHabit = () => {
+        setLoading(true);
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -17,9 +21,11 @@ export default function CreateHabit({showCreateBox, cancel, token, loadHabits}) 
                 cancel();
                 setHabit({name: "", days: []});
                 loadHabits();
+                setLoading(false);
             })
             .catch(() => {
                 alert("Erro");
+                setLoading(false);
             })
     }
 
@@ -31,28 +37,40 @@ export default function CreateHabit({showCreateBox, cancel, token, loadHabits}) 
             setHabit({...habit, days: [...habit.days, day]})
         }
     }
-    
 
     return (
-        <CreateBox showCreateBox={showCreateBox}>
-            <Input type="text" placeholder="nome do hábito" value={habit.name} onChange={e => setHabit({...habit, name: e.target.value})} />
-            <Days>
+        <CreateBoxContainer showCreateBox={showCreateBox} loading={loading}>
+            <input 
+                type="text" 
+                placeholder="nome do hábito" 
+                value={habit.name} 
+                onChange={e => setHabit({...habit, name: e.target.value})}
+            />
+            <ul>
                 {week.map((day, index) => 
-                <Day key={index} 
-                onClick={() => selectDay(index)} 
-                selected={habit.days.includes(index) ? true : false}>
-                {day}
-                </Day>)}
-            </Days>
+                    <Day 
+                        key={index} 
+                        onClick={() => selectDay(index)} 
+                        selected={habit.days.includes(index) ? true : false}
+                    >
+                    {day}
+                    </Day>)
+                }
+            </ul>
             <Buttons>
                 <Cancel onClick={cancel}>Cancelar</Cancel>
-                <Save onClick={saveHabit}>Salvar</Save>
+                <Save onClick={saveHabit} loading={loading}>
+                    {loading 
+                    ? <Loader type="ThreeDots" color="#FFFFFF" height={13} width={51} /> 
+                    : "Salvar"
+                    }
+                </Save>
             </Buttons>
-        </CreateBox>
+        </CreateBoxContainer>
     );
 }
 
-const CreateBox = styled.div`
+const CreateBoxContainer = styled.div`
     width: calc(100% - 30px);
     height: 180px;
     border-radius: 5px;
@@ -60,25 +78,28 @@ const CreateBox = styled.div`
     margin: 0 auto 30px;
     padding: 18px;
     display: ${({showCreateBox}) => showCreateBox ? 'block' : 'none'};
-`;
 
-const Input = styled.input`
-    display: block;
-    width: 100%;
-    height: 45px;
-    margin-bottom: 8px;
-    border: 1px solid #D4D4D4;
-    border-radius: 5px;
-    padding-left: 8px;
+    input {
+        display: block;
+        width: 100%;
+        height: 45px;
+        margin-bottom: 8px;
+        border: 1px solid #D4D4D4;
+        border-radius: 5px;
+        padding-left: 8px; 
+        font-size: 20px;
+        background-color: ${({loading}) => loading ? '#F2F2F2' : 'inherit'};
+        pointer-events: ${({loading}) => loading ? 'none' : 'all'};
+        color: ${({loading}) => loading ? '#AFAFAF' : '#666666'}; 
 
-    ::placeholder {
-        color: #DBDBDB;
-        font-size: 20px; 
+        ::placeholder {
+            color: #DBDBDB;
+        }
     }
-`;
 
-const Days = styled.ul`
-    display: flex;
+    ul {
+        display: flex;
+    }
 `;
 
 const Day = styled.li`
@@ -93,7 +114,6 @@ const Day = styled.li`
     border-radius: 5px;
     margin-right: 4px;
     margin-bottom: 30px;
-
 `;
 
 const Buttons = styled.div`
@@ -114,4 +134,6 @@ const Save = styled.button`
     color: #FFFFFF;
     font-size: 16px;
     margin-left:  25px;
+    opacity: ${({loading}) => loading ? 0.7 : 1};
+    pointer-events: ${({loading}) => loading ? 'none' : 'all'};
 `;

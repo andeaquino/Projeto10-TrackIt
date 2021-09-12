@@ -1,10 +1,9 @@
-import styled from "styled-components";
 import { Link } from "react-router-dom";
+import {useContext} from 'react';
 import { CircularProgressbar } from "react-circular-progressbar";
 import 'react-circular-progressbar/dist/styles.css';
-import {useContext} from 'react';
-import ProgressContext from "../../contexts/ProgressContext";
-
+import ProgressContext from "../contexts/ProgressContext";
+import styled from "styled-components";
 
 export default function Menu() {
     const {progress} = useContext(ProgressContext);
