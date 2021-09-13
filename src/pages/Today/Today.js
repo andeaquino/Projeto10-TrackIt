@@ -3,6 +3,7 @@ import { getTodayHabits } from "../../services/trackIt";
 import UserContext from "../../contexts/UserContext";
 import ProgressContext from "../../contexts/ProgressContext";
 import dayjs from "dayjs";
+import 'dayjs/locale/pt-br'
 import styled from "styled-components";
 import Header from "../../components/Header";
 import Menu from "../../components/Menu";
@@ -12,7 +13,7 @@ export default function Today() {
     const [habits, setHabits] = useState([]);
     const {progress, setProgress} = useContext(ProgressContext);
     const {user} = useContext(UserContext);
-    const day = dayjs().format('dddd, DD/MM');
+    const day = dayjs().locale('pt-br').format('dddd, DD/MM');
 
     const checkProgress = (totalHabits) => {
         const habitsDone = totalHabits.filter(habit => habit.done === true);
@@ -47,7 +48,7 @@ export default function Today() {
                         : 'Nenhum hábito concluído ainda'
                     }
                 </span>
-                {habits.map(habit => <TodayHabit habit={habit} token={user.token} loadTodayHabits={loadTodayHabits}/>)}
+                {habits.map(habit => <TodayHabit key={habit.id} habit={habit} token={user.token} loadTodayHabits={loadTodayHabits}/>)}
             </TodayContainer>
             <Menu />
         </>

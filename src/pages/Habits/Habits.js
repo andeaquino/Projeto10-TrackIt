@@ -42,8 +42,8 @@ export default function Habits() {
                 </SectionHeader>
                 <CreateBox showCreateBox={showCreateBox} cancel={cancel} token={user.token} loadHabits={loadHabits}/>
                 {(habits.length > 0) 
-                ? habits.map(habit => <Habit habit={habit} loadHabits={loadHabits} />) 
-                : <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
+                    ? habits.map(habit => <Habit key={habit.id} habit={habit} loadHabits={loadHabits} />) 
+                    : <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
                 }
             </HabitsContainer>
             <Menu />

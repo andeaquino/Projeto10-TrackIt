@@ -10,15 +10,15 @@ export default function Menu() {
     return (
         <Footer>
             <Link to="/habitos">
-                <Button>Hábitos</Button>
+                <PageButton>Hábitos</PageButton>
             </Link>
             <Link to="/hoje">  
-                <Today>
+                <TodayButton>
                     <CircularProgressbar value={progress} text={'Hoje'}/>
-                </Today>
+                </TodayButton>
             </Link>
             <Link to="/historico">
-                <Button>Histórico</Button>
+                <PageButton>Histórico</PageButton>
             </Link>
         </Footer>
     );
@@ -35,14 +35,14 @@ const Footer = styled.footer`
     justify-content: space-around;
 `;
 
-const Button = styled.button`
+const PageButton = styled.button`
     color: #52B6FF;
     font-size: 18px;
     border: none;
     background-color: inherit;
 `;
 
-const Today = styled.button`
+const TodayButton = styled.button`
     width: 91px;
     height: 91px;
     border-radius: 50px;
@@ -61,6 +61,7 @@ const Today = styled.button`
     .CircularProgressbar-path {
         stroke: #FFFFFF;
     }
+    
     .CircularProgressbar-trail {
         stroke: #52B6FF;
     }

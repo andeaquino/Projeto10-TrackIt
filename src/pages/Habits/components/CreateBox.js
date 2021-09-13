@@ -61,8 +61,8 @@ export default function CreateBox({showCreateBox, cancel, token, loadHabits}) {
                 <Cancel onClick={cancel}>Cancelar</Cancel>
                 <Save onClick={saveHabit} loading={loading}>
                     {loading 
-                    ? <Loader type="ThreeDots" color="#FFFFFF" height={13} width={51} /> 
-                    : "Salvar"
+                        ? <Loader type="ThreeDots" color="#FFFFFF" height={13} width={51} /> 
+                        : "Salvar"
                     }
                 </Save>
             </Buttons>

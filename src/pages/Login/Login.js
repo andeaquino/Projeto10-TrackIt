@@ -71,7 +71,7 @@ const LoginContainer = styled.div`
         font-size: 20px;
         background-color: ${({loading}) => loading ? '#F2F2F2' : 'inherit'};
         color: ${({loading}) => loading ? '#AFAFAF' : '#666666'};
-        pointer-events: ${({loading}) => loading ? 'none' : 'all'};
+        pointer-events: ${({loading}) => loading ? 'none' : 'initial'};
 
         ::placeholder { 
             color: #DBDBDB;

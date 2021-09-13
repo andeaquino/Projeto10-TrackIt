@@ -42,6 +42,11 @@ function uncheckHabit(id, config) {
     return promise;
 }
 
+function getHistory(config) {
+    const promise = axios.get(`${BASE_URL}/habits/history/daily`, config);
+    return promise;
+}
+
 export {
     login,
     register,
@@ -50,5 +55,6 @@ export {
     deleteHabit,
     getTodayHabits,
     checkHabit,
-    uncheckHabit
+    uncheckHabit,
+    getHistory
 }

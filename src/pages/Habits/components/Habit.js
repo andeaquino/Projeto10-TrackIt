@@ -29,7 +29,7 @@ export default function Habit({habit, loadHabits}) {
                 <ion-icon name="trash-outline" onClick={confirmDeleteAction}></ion-icon>
             </HabitHeader>
             <ul>
-                {week.map((day, index) => <Day selected={days.includes(index)}>{day}</Day>)}
+                {week.map((day, index) => <Day key={index} selected={days.includes(index)}>{day}</Day>)}
             </ul>
             
         </HabitContainer>
