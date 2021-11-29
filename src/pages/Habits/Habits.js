@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from "react";
-import { getHabits } from "../../services/trackIt";
+import { getHabits } from "../../services/API";
 import UserContext from "../../contexts/UserContext";
 import styled from "styled-components";
-import Header from "../../components/Header";
-import Menu from "../../components/Menu";
+import Header from "../../shared/Header";
+import Menu from "../../shared/Menu";
 import CreateBox from "./components/CreateBox";
 import Habit from "./components/Habit";
 

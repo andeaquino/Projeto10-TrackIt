@@ -1,4 +1,4 @@
-import { checkHabit, uncheckHabit } from "../../../services/trackIt";
+import { checkHabit, uncheckHabit } from "../../../services/API";
 import styled from "styled-components";
 
 export default function TodayHabit({ habit, token, loadTodayHabits }) {

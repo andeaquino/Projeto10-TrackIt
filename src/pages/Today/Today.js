@@ -1,12 +1,12 @@
 import { useState, useEffect, useContext } from "react";
-import { getTodayHabits } from "../../services/trackIt";
+import { getTodayHabits } from "../../services/API";
 import UserContext from "../../contexts/UserContext";
 import ProgressContext from "../../contexts/ProgressContext";
 import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
 import styled from "styled-components";
-import Header from "../../components/Header";
-import Menu from "../../components/Menu";
+import Header from "../../shared/Header";
+import Menu from "../../shared/Menu";
 import TodayHabit from "./components/TodayHabit";
 
 export default function Today() {

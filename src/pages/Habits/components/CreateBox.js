@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createHabit } from "../../../services/trackIt";
+import { createHabit } from "../../../services/API";
 import Loader from "react-loader-spinner";
 import styled from "styled-components";
 

@@ -1,12 +1,12 @@
 import { useContext, useState, useEffect } from "react";
-import { getHistory } from "../../services/trackIt";
+import { getHistory } from "../../services/API";
 import UserContext from "../../contexts/UserContext";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import dayjs from "dayjs";
 import styled from "styled-components";
-import Header from "../../components/Header";
-import Menu from "../../components/Menu";
+import Header from "../../shared/Header";
+import Menu from "../../shared/Menu";
 
 export default function History() {
   const { user } = useContext(UserContext);

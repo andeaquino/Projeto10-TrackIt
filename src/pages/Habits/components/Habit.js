@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { deleteHabit } from "../../../services/trackIt";
+import { deleteHabit } from "../../../services/API";
 import UserContext from "../../../contexts/UserContext";
 import styled from "styled-components";
 

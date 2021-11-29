@@ -1,6 +1,6 @@
 import { Link, useHistory } from "react-router-dom";
 import { useState } from "react";
-import { login } from "../../services/trackIt";
+import { login } from "../../services/API";
 import styled from "styled-components";
 import Loader from "react-loader-spinner";
 import logo from "../../assets/media/Logo.png";
